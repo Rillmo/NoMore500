@@ -1,0 +1,24 @@
+{
+  "name": "nomore500",
+  "version": "1.0.0",
+  "description": "A GitHub Action that prevents 500 errors by automatically renewing expired OAuth tokens monthly",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rillmo/NoMore500.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rillmo/NoMore500/issues"
+  },
+  "homepage": "https://github.com/Rillmo/NoMore500#readme",
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/github": "^6.0.0"
+  }
+}
