@@ -41,6 +41,7 @@ async function makeSecretFile() {
 
 // run jobs
 async function run() {
+	let driver;
 	try {
 		// Set up Chrome options for headless mode
 		let options = new chrome.Options();
@@ -48,7 +49,7 @@ async function run() {
 		options.addArguments('disable-gpu');
 
 		// Set up Chrome driver
-		let driver = await new Builder()
+		driver = await new Builder()
 			.forBrowser(Browser.CHROME)
 			.setChromeOptions(options)
 			.build();
@@ -110,7 +111,7 @@ async function run() {
 }
 
 try {
-	run();
+	await run();
 } catch (e) {
 	core.setFailed(e.message);
 }
