@@ -22,3 +22,4 @@ jobs:
           ssh-user: 'ec2-user'
           env-path: 'test/.testenv'
           env-key: 'SECRET'
+          reboot-script: 'cat test/.testenv'
