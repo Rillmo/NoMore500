@@ -1,8 +1,10 @@
 const core = require('@actions/core');
 const { By, Browser, Builder } = require("selenium-webdriver");
+const chrome = require('selenium-webdriver/chrome');
 const fs = require('fs');
 const path = require('path');
 
+let driver;
 let secret;
 let attempts = 0, maxAttempts = 3;
 
@@ -26,22 +28,19 @@ async function getCredential(type) {
 }
 
 // write secret to file
-async function makeSecretFile() {
+function makeSecretFile() {
 	const dir = './';
 	const fileName = '.secret42.txt';
 	const filePath = path.join(dir, fileName);
 
 	fs.writeFileSync(filePath, secret, (e) => {
-		if (e)
-			throw error('[ERROR] failed to write secret to file');
-		else
-			console.log('successfully writed ' + filePath);
+		throw error('[ERROR] failed to write secret to file');
 	});
+	console.log('successfully writed ' + filePath);
 }
 
 // run jobs
-async function run() {
-	let driver;
+(async function run() {
 	try {
 		// Set up Chrome options for headless mode
 		let options = new chrome.Options();
@@ -57,16 +56,19 @@ async function run() {
 		// go to 42intra
 		await driver.get('https://profile.intra.42.fr');
 		await driver.manage().setTimeouts({implicit: 500});
+		console.log('[Crawling...] enterd 42intra');
 		
 		// id, pw input and login
 		await driver.findElement(By.id('username')).sendKeys(process.env.INTRA_ID);
 		await driver.findElement(By.id('password')).sendKeys(process.env.INTRA_PW);
 		await driver.findElement(By.id('kc-login')).click();
 		await driver.manage().setTimeouts({implicit: 1000});
+		console.log('[Crawling...] login success');
 		
 		// go to profile->settings->api
 		await driver.get(process.env.APP_URL);
 		await driver.manage().setTimeouts({implicit: 1000});
+		console.log('[Crawling...] enterd app url');
 		
 		// if 'Replace now' btn exists, click it and copy 'secret'
 		// if 'Generate now' btn exists, click it and copy 'next secret'
@@ -75,12 +77,12 @@ async function run() {
 			let innerHTML = await b.getText();
 			if (innerHTML === 'Replace now') {
 				await b.click();
-				console.log('[CLICKED] replace now btn');
+				console.log('[Crawling...] clicked replace now btn');
 				secret = await getCredential(1);
 				break;
 			}
 			if (innerHTML === 'Generate now') {
-				console.log('[CLICKED] generate now btn');
+				console.log('[Crawling...] clicked generate now btn');
 				await b.click();
 				secret = await getCredential(2);
 				break;
@@ -94,7 +96,7 @@ async function run() {
 			let innerHTML = await b.getText();
 			if (innerHTML === 'Replace now') {
 				await b.click();
-				console.log('[CLICKED] replace now btn');
+				console.log('[Crawling...] clicked replace now btn');
 				break;
 			}
 		}
@@ -103,15 +105,10 @@ async function run() {
 		// write to file '$PATH/.secret42.txt'
 		makeSecretFile();
 	} catch (e) {
-		throw error('[ERROR] crawling error: ' + e);
+		core.setFailed(e);
 	} finally {
 		await driver.manage().setTimeouts({implicit: 3000});
 		await driver.quit();
+		console.log('successfully quited selenium driver');
 	}
-}
-
-try {
-	await run();
-} catch (e) {
-	core.setFailed(e.message);
-}
+}());
