@@ -57,9 +57,11 @@ runs:
     # Step 3: Shell Script로 서버에 저장
     - name: Upate Token on Server
       run: |
+        mkdir -p ~/.ssh
+        echo ${{ inputs.ssh-private-key }} > ~/.ssh/id_rsa
         KEY=$(<.secret42.txt)
         UPDATE_SCRIPT=$(<${{ inputs.update-script-path }})
-        ssh -i ${{ inputs.ssh-private-key }} ${{ inputs.ssh-user }}@${{ inputs.ssh-host }} << EOF
+        ssh -i ~/.ssh/id_rsa ${{ inputs.ssh-user }}@${{ inputs.ssh-host }} << EOF
           sed -i 's|${{ inputs.env-key }}=.*|${{ inputs.env-key }}=\"KEY\"|' ${{ inputs.env-path }}
           $UPDATE_SCRIPT
         EOF
