@@ -15,6 +15,43 @@ inputs:
   app-url:
     description: '42OAuth App URL'
     required: true
+  ssh_host:
+    description: 'SSH Host'
+    required: true
+  ssh_private_key:
+    description: 'SSH Private Key'
+    required: true
+  ssh_user:
+    description: 'SSH User'
+    required: true
+  env_path:
+    description: 'Path to .env file'
+    required: true
+  env_key:
+    description: 'Key to update in .env file'
+    required: true
 runs:
-  using: 'node20'
-  main: 'index.js'
+  using: 'composite'
+  steps:
+    # Step 1: JavaScript 파일 실행
+    - name: Crawl for 42OAuth Token
+      run: |
+        npm install
+        node crawling.js
+      shell: bash
+      env:
+        INTRA_ID: ${{ inputs.intra-id }}
+        INTRA_PW: ${{ inputs.intra-pw }}
+        APP_URL: ${{ inputs.app-url }}
+
+    # Step 2: Shell Script로 서버에 저장
+    # - name: Upate Token on Server
+    #   run: |
+    #     bash update.sh
+    #   shell: bash
+    #   env:
+    #     SSH_HOST: ${{ inputs.ssh_host }}
+    #     SSH_PRIVATE_KEY: ${{ inputs.ssh_private_key }}
+    #     SSH_USER: ${{ inputs.ssh_user }}
+    #     ENV_PATH: ${{ inputs.env_path }}
+    #     ENV_KEY: ${{ inputs.env_key }}

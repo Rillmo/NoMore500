@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Rillmo/NoMore500#readme",
   "dependencies": {
     "@actions/core": "^1.11.1",
-    "@actions/github": "^6.0.0"
+    "@actions/github": "^6.0.0",
+    "selenium-webdriver": "^4.28.1"
   }
 }
