@@ -30,10 +30,9 @@ inputs:
   env-key:
     description: 'Key to update in .env file'
     required: true
-  update-script-path:
-    description: 'Path to update script'
+  reboot-script:
+    description: 'Script to reboot server'
     required: true
-    default: 'no_more_500/update.sh'
 runs:
   using: 'composite'
   steps:
@@ -60,9 +59,8 @@ runs:
         mkdir -p ~/.ssh
         echo ${{ inputs.ssh-private-key }} > ~/.ssh/id_rsa
         KEY=$(<.secret42.txt)
-        UPDATE_SCRIPT=$(<${{ inputs.update-script-path }})
         ssh -i ~/.ssh/id_rsa ${{ inputs.ssh-user }}@${{ inputs.ssh-host }} << EOF
           sed -i 's|${{ inputs.env-key }}=.*|${{ inputs.env-key }}=\"KEY\"|' ${{ inputs.env-path }}
-          $UPDATE_SCRIPT
+          ${{ inputs.reboot-script }}
         EOF
       shell: bash
