@@ -39,9 +39,18 @@ function makeSecretFile() {
 	console.log('successfully writed ' + filePath);
 }
 
+// validate environment variables
+function validateEnv() {
+	if (!process.env.INTRA_ID || !process.env.INTRA_PW || !process.env.APP_URL) {
+		throw error('[ERROR] environment variables are invalid or not set. Please check your environment variables');
+	}
+}
+
 // run jobs
 (async function run() {
 	try {
+		validateEnv();
+
 		// Set up Chrome options for headless mode
 		let options = new chrome.Options();
 		options.addArguments('headless');
