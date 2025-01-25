@@ -1,13 +1,20 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'NoMore500'
+description: 'Action that prevents 500 errors by automatically renewing expired 42OAuth tokens monthly'
+
+branding:
+  icon: 'shield'
+  color: 'blue'
+
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  intra-id:
+    description: '42Intra ID'
     required: true
-    default: 'World'
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  intra-pw:
+    description: '42Intra PW'
+    required: true
+  app-url:
+    description: '42OAuth App URL'
+    required: true
 runs:
   using: 'node20'
   main: 'index.js'
