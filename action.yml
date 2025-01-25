@@ -60,7 +60,7 @@ runs:
         echo "${{ inputs.ssh-private-key }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         KEY=$(<.secret42.txt)
-        ssh -i ~/.ssh/id_rsa ${{ inputs.ssh-user }}@${{ inputs.ssh-host }} << EOF
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ inputs.ssh-user }}@${{ inputs.ssh-host }} << EOF
           sed -i 's|${{ inputs.env-key }}=.*|${{ inputs.env-key }}=\"$KEY\"|' ${{ inputs.env-path }}
           ${{ inputs.reboot-script }}
         EOF
