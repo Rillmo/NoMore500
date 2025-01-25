@@ -48,7 +48,7 @@ async function run() {
 		options.addArguments('disable-gpu');
 
 		// Set up Chrome driver
-		driver = await new Builder()
+		let driver = await new Builder()
 			.forBrowser(Browser.CHROME)
 			.setChromeOptions(options)
 			.build();
