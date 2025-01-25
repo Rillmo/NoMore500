@@ -20,5 +20,5 @@ jobs:
           ssh-host: ${{ secrets.SSH_HOST }}
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           ssh-user: 'ec2-user'
-          env-path: './'
-          env-key: 'test/.testenv'
+          env-path: 'test/.testenv'
+          env-key: 'SECRET'
