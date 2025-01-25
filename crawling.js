@@ -36,7 +36,7 @@ function makeSecretFile() {
 	fs.writeFileSync(filePath, secret, (e) => {
 		throw error('[ERROR] failed to write secret to file');
 	});
-	console.log('successfully writed ' + filePath);
+	console.log('[Crawling...] successfully writed ' + filePath);
 }
 
 // validate environment variables
@@ -118,6 +118,6 @@ function validateEnv() {
 	} finally {
 		await driver.manage().setTimeouts({implicit: 3000});
 		await driver.quit();
-		console.log('successfully quited selenium driver');
+		console.log('[Crawling...] successfully quited selenium driver');
 	}
 }());
