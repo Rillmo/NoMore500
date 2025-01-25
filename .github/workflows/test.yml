@@ -17,4 +17,8 @@ jobs:
           intra-id: ${{ secrets.INTRA_ID }}
           intra-pw: ${{ secrets.INTRA_PW }}
           app-url: ${{ secrets.APP_URL }}
-          
+          ssh-host: ${{ secrets.SSH_HOST }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-user: 'ec2-user'
+          env-path: './'
+          env-key: 'test/.testenv'
