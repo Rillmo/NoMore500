@@ -19,7 +19,7 @@ jobs:
           app-url: ${{ secrets.APP_URL }}
           ssh-host: ${{ secrets.SSH_HOST }}
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ssh-user: 'ec2-user'
-          env-path: 'test/.testenv'
-          env-key: 'SECRET'
-          reboot-script: 'cat test/.testenv'
+          ssh-user: ${{ secrets.SSH_USER }}
+          env-path: ${{ secrets.ENV_PATH }}
+          env-key: ${{ secrets.ENV_KEY }}
+          reboot-script: 'cd ./deploy && docker-compose up -d --build'
