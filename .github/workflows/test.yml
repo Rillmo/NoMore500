@@ -1,0 +1,17 @@
+name: "Test NoMore500 Action"
+
+on:
+  workflow_dispatch: # 수동 실행을 위해 설정
+
+jobs:
+  test-action:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test NoMore500 Action
+        uses: ./ # 현재 디렉토리의 Composite Action 사용
+        with:
+          intra-id: ${{ secrets.INTRA_ID }}
+          intra-pw: ${{ secrets.INTRA_PW }}
+          app-url: ${{ secrets.APP_URL }}
+          
