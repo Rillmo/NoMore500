@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: Test NoMore500 Action
-        uses: Rillmo/NoMore500@v1.0.3
+        uses: Rillmo/NoMore500@v1.0.4
         with:
           intra-id: ${{ secrets.INTRA_ID }}
           intra-pw: ${{ secrets.INTRA_PW }}
