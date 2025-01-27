@@ -54,7 +54,7 @@ runs:
         mkdir -p ~/.ssh
         echo "${{ inputs.ssh-private-key }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        KEY=$(<.secret42.txt)
+        KEY=$(<${{ github.action_path }}.secret42.txt)
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ inputs.ssh-user }}@${{ inputs.ssh-host }} << EOF
           sed -i 's|${{ inputs.env-key }}=.*|${{ inputs.env-key }}=\"$KEY\"|' ${{ inputs.env-path }}
           ${{ inputs.reboot-script }}
@@ -64,5 +64,5 @@ runs:
     # Step 3: Remove 42OAuth Token from Local
     - name: Remove Token from Local
       run: |
-        rm .secret42.txt
+        rm ${{ github.action_path }}.secret42.txt
       shell: bash
