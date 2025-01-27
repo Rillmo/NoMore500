@@ -40,7 +40,7 @@ runs:
     - name: Crawl for 42OAuth Token
       run: |
         npm install
-        node crawling.js
+        node node ${{ github.action_path }}/crawling.js
       shell: bash
       env:
         INTRA_ID: ${{ inputs.intra-id }}
