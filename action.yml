@@ -39,8 +39,9 @@ runs:
     # Step 1: Run javascript to crawl for 42OAuth Token
     - name: Crawl for 42OAuth Token
       run: |
+        cd ${{ github.action_path }}
         npm install
-        node ${{ github.action_path }}/crawling.js
+        node crawling.js
       shell: bash
       env:
         INTRA_ID: ${{ inputs.intra-id }}
