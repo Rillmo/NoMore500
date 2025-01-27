@@ -19,7 +19,7 @@ async function getCredential(type) {
 			break;
 		} catch (e) {
 			if (attempts == maxAttempts) {
-				throw error('[ERROR] credentials error retry limit reached (' + attempts + ')');
+				throw new Error('[ERROR] credentials error retry limit reached (' + attempts + ')');
 			}
 			console.error('[ERROR] credentials error... retry (' + attempts++ + ')');
 		}
@@ -34,7 +34,7 @@ function makeSecretFile() {
 	const filePath = path.join(dir, fileName);
 
 	fs.writeFileSync(filePath, secret, (e) => {
-		throw error('[ERROR] failed to write secret to file');
+		throw new Error('[ERROR] failed to write secret to file');
 	});
 	console.log('[Crawling...] successfully writed ' + filePath);
 }
@@ -42,7 +42,7 @@ function makeSecretFile() {
 // validate environment variables
 function validateEnv() {
 	if (!process.env.INTRA_ID || !process.env.INTRA_PW || !process.env.APP_URL) {
-		throw error('[ERROR] environment variables are invalid or not set. Please check your environment variables');
+		throw new Error('[ERROR] environment variables are invalid or not set. Please check your environment variables');
 	}
 }
 
