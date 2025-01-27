@@ -47,13 +47,7 @@ runs:
         INTRA_PW: ${{ inputs.intra-pw }}
         APP_URL: ${{ inputs.app-url }}
 
-    # Step 2: setup ssh
-    # - name: Setup SSH
-    #   uses: webfactory/ssh-agent@v0.5.3
-    #   with:
-    #     ssh-private-key: ${{ inputs.ssh-private-key }}
-
-    # Step 3: Shell Script로 서버에 저장
+    # Step 2: Update 42OAuth Token on Server
     - name: Upate Token on Server
       run: |
         mkdir -p ~/.ssh
@@ -64,4 +58,10 @@ runs:
           sed -i 's|${{ inputs.env-key }}=.*|${{ inputs.env-key }}=\"$KEY\"|' ${{ inputs.env-path }}
           ${{ inputs.reboot-script }}
         EOF
+      shell: bash
+
+    # Step 3: Remove 42OAuth Token from Local
+    - name: Remove Token from Local
+      run: |
+        rm .secret42.txt
       shell: bash
