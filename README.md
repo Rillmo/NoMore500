@@ -61,7 +61,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Renew OAuth Token
-        uses: Rillmo/NoMore500@v1.0.0
+        uses: Rillmo/NoMore500@v1.0.7
         with:
           intra-id: ${{ secrets.INTRA_ID }}
           intra-pw: ${{ secrets.INTRA_PW }}
