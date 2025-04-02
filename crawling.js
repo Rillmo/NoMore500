@@ -12,20 +12,24 @@ let attempts = 0, maxAttempts = 3;
 async function getCredential(type) {
 	let res;
 	while (attempts < maxAttempts) {
-		await driver.manage().setTimeouts({implicit: 2000 * attempts});
+		await driver.manage().setTimeouts({ implicit: 2000 * (attempts + 1) });
 		try {
 			let credentials = await driver.findElements(By.className('credential'));
+			if (!credentials[type]) throw new Error('Credential index not found');
 			res = await credentials[type].getText();
+			if (!res) throw new Error('Empty credential text');
 			break;
 		} catch (e) {
-			if (attempts == maxAttempts) {
+			attempts++;
+			console.error(`[ERROR] getCredential failed (attempt ${attempts}/${maxAttempts}): ${e.message}`);
+			if (attempts >= maxAttempts) {
 				throw new Error('[ERROR] credentials error retry limit reached (' + attempts + ')');
 			}
-			console.error('[ERROR] credentials error... retry (' + attempts++ + ')');
 		}
 	}
 	return res;
 }
+
 
 // write secret to file
 function makeSecretFile() {
@@ -98,6 +102,10 @@ function validateEnv() {
 			}
 		}
 		await driver.manage().setTimeouts({implicit: 1000});
+
+		if (!secret) {
+			throw new Error('[ERROR] secret is undefined. getCredential() failed.');
+		}
 		
 		// if 'Replace now' btn exists, click it to replace new secret
 		buttons = await driver.findElements(By.className('pull-right btn btn-danger small'));
